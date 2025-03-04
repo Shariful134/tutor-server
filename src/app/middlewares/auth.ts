@@ -1,52 +1,53 @@
-// import { NextFunction, Request, Response } from 'express';
-// import catchAsync from '../utils/catchAsync';
-// import jwt, { JwtPayload } from 'jsonwebtoken';
-// import config from '../config';
+import { NextFunction, Request, Response } from 'express';
+import catchAsync from '../utils/catchAsync';
+import jwt, { JwtPayload } from 'jsonwebtoken';
+import config from '../config';
 
-// import AppError from '../errors/AppError';
-// import { StatusCodes } from 'http-status-codes';
-// import { TUserRole } from '../modules/user/user.interface';
-// import { User } from '../modules/user/user.model';
-// import { CustomJwtPayload } from '../interface';
+import AppError from '../errors/AppError';
+import { StatusCodes } from 'http-status-codes';
 
-// const auth = (...requiredRoles: TUserRole[]) => {
-//   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-//     const token = req.headers.authorization;
-//     console.log(token);
+import { CustomJwtPayload } from '../interface';
+import { TUserRole } from '../modules/auth/auth.interface';
+import { User } from '../modules/auth/auth.model';
 
-//     //if the token is sent to the client side
-//     if (!token) {
-//       throw new AppError(StatusCodes.UNAUTHORIZED, 'Your are not Authorized!');
-//     }
+const auth = (...requiredRoles: TUserRole[]) => {
+  return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const token = req.headers.authorization;
+    console.log(token);
 
-//     //new add token verify
-//     let decoded;
-//     // console.log(decoded);
-//     try {
-//       decoded = jwt.verify(
-//         token,
-//         config.jwt_access_secret as string,
-//       ) as CustomJwtPayload;
-//     } catch (error) {
-//       throw new AppError(StatusCodes.UNAUTHORIZED, 'Unauthorized');
-//     }
+    //if the token is sent to the client side
+    if (!token) {
+      throw new AppError(StatusCodes.UNAUTHORIZED, 'Your are not Authorized!');
+    }
 
-//     const { userEmail, role, iat, exp } = decoded;
-//     console.log(role);
+    //new add token verify
+    let decoded;
+    // console.log(decoded);
+    try {
+      decoded = jwt.verify(
+        token,
+        config.jwt_access_secret as string,
+      ) as CustomJwtPayload;
+    } catch (error) {
+      throw new AppError(StatusCodes.UNAUTHORIZED, 'Unauthorized');
+    }
 
-//     const user = await User.isUserExistsByEmail(userEmail);
+    const { userEmail, role, iat, exp } = decoded;
+    console.log(role);
 
-//     //checking user is exists
-//     if (!user) {
-//       throw new AppError(StatusCodes.NOT_FOUND, 'User is not found!');
-//     }
+    const user = await User.isUserExistsByEmail(userEmail);
 
-//     if (requiredRoles && !requiredRoles.includes(role as TUserRole)) {
-//       throw new AppError(StatusCodes.UNAUTHORIZED, 'Your are not Authorized!');
-//     }
-//     req.user = decoded;
-//     next();
-//   });
-// };
+    //checking user is exists
+    if (!user) {
+      throw new AppError(StatusCodes.NOT_FOUND, 'User is not found!');
+    }
 
-// export default auth;
+    if (requiredRoles && !requiredRoles.includes(role as TUserRole)) {
+      throw new AppError(StatusCodes.UNAUTHORIZED, 'Your are not Authorized!');
+    }
+    req.user = decoded;
+    next();
+  });
+};
+
+export default auth;

@@ -6,3 +6,10 @@ export type TDecoded = {
   iat: number;
   exp: number;
 };
+
+export type IUserInfo = {
+  userEmail: string;
+  role: 'tutor' | 'student' | 'admin';
+  iat: number;
+  exp: number;
+};
