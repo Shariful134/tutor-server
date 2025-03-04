@@ -15,7 +15,7 @@ router.get(
   userControllers.updateUser,
 );
 router.patch(
-  '/update',
+  '/profile-update',
   auth(USER_ROLE.admin, USER_ROLE.tutor, USER_ROLE.student),
   validateRequest(userValidation.updateUserValidationSchema),
   userControllers.updateUser,

@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const userRoleEnum = z.enum(['student', 'tutor']);
+export const userRoleEnum = z.enum(['student', 'tutor', 'admin']);
 export const shiftEnum = z.enum(['Morning', 'Afternoon', 'Evening', 'Night']);
 export const phoneNumberRegex = /^\+?[0-9]{10,15}$/;
 export const dayEnum = z.enum([
@@ -28,9 +28,23 @@ const createUserValidationSchema = z.object({
       .string()
       .regex(phoneNumberRegex, 'Invalid phone number')
       .optional(),
+
     subjects: z.array(z.string()).optional(),
-    shift: shiftEnum.optional(),
-    day: dayEnum.optional(),
+    gradeLevel: z.string().optional(),
+    hourlyRate: z.number().optional(),
+    ratings: z.array(z.number()).optional(),
+    category: z.string().optional(),
+    profileImage: z.string().optional(),
+    availability: z
+      .array(
+        z.object({
+          day: z.string().min(1, 'Day is required'),
+          time: z.string().min(1, 'Time is required'),
+        }),
+      )
+      .optional(),
+    shift: z.array(z.string()).optional(),
+    day: z.array(z.string()).optional(),
     rating: z.number().min(0).max(5).optional(),
   }),
 });

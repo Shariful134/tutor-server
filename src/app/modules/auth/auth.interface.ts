@@ -5,23 +5,16 @@ export interface IUsers {
   name: string;
   email: string;
   password: string;
-  role: 'student' | 'tutor' | 'admin';
+  phoneNumber: string;
+  role: 'student' | 'tutor';
   bio?: string;
   subjects?: string[];
-  day?:
-    | 'Sunday'
-    | 'Monday'
-    | 'Tuesday'
-    | 'Wednesday'
-    | 'Thursday'
-    | 'Friday'
-    | 'Saturday';
-
-  shift?: 'Morning' | 'Afternoon' | 'Evening' | 'Night';
-  rating?: number;
-  phoneNumber?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  gradeLevel?: string;
+  hourlyRate: number;
+  category?: string;
+  availability?: { day: string; time: string }[];
+  ratings?: number[];
+  profileImage?: string;
 }
 
 export type TUserLogin = {

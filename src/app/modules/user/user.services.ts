@@ -17,7 +17,10 @@ const getUserProfileIntoDB = async (userInfo: IUserInfo) => {
 };
 
 //update user
-const updateUserIntoDB = async (userInfo: IUserInfo, payload: IUsers) => {
+const updateUserIntoDB = async (
+  userInfo: IUserInfo,
+  payload: Partial<IUsers>,
+) => {
   const { userEmail } = userInfo;
   const result = await User.findOneAndUpdate({ email: userEmail }, payload, {
     new: true,
