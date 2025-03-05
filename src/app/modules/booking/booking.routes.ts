@@ -18,10 +18,14 @@ router.post(
 ///paymentVerify
 router.get('/', auth(USER_ROLE.student), bookingControllers.verifyPament);
 
-router.get('/get', auth(USER_ROLE.student), bookingControllers.getBooking);
+router.get(
+  '/get',
+  auth(USER_ROLE.student, USER_ROLE.tutor, USER_ROLE.admin),
+  bookingControllers.getBooking,
+);
 router.get(
   '/get/:id',
-  auth(USER_ROLE.student),
+  auth(USER_ROLE.student, USER_ROLE.tutor, USER_ROLE.admin),
   bookingControllers.getSingleBooking,
 );
 router.patch(

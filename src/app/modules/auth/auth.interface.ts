@@ -6,7 +6,7 @@ export interface IUsers {
   email: string;
   password: string;
   phoneNumber: string;
-  role: 'student' | 'tutor';
+  role: 'student' | 'tutor' | 'admin';
   bio?: string;
   subjects?: string[];
   gradeLevel?: string;
