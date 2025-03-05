@@ -15,10 +15,29 @@ const bookingSchema = new Schema<IBooking>(
     },
     status: {
       type: String,
-      enum: ['pending', 'paid', 'canceled'],
-      default: 'pending',
+      enum: ['Pending', 'Paid', 'Cancelled'],
+      default: 'Pending',
+    },
+    address: {
+      type: String,
+      required: true,
+      trim: true,
     },
     totalPrice: { type: Number, required: true },
+    phone: {
+      type: String,
+      trim: true,
+      match: [/^\+?[0-9]{10,15}$/, 'Invalid phone number'],
+    },
+    transaction: {
+      id: String,
+      transactionStatus: String,
+      date_time: String,
+      method: String,
+      sp_message: String,
+      sp_code: String,
+      bank_status: String,
+    },
   },
   {
     timestamps: true,

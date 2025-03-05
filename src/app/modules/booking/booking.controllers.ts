@@ -4,12 +4,33 @@ import sendResponse from '../../utils/sendResponse';
 import { bookingServices } from './booking.services';
 
 const createBooking = catchAsync(async (req, res) => {
-  const result = await bookingServices.createBookingIntoDB(req.body);
+  const { userEmail } = req.user;
+
+  const result = await bookingServices.createBookingIntoDB(
+    userEmail,
+    req.body,
+    req.ip!,
+  );
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     success: true,
     message: 'Booking  successfully',
     data: result,
+  });
+});
+
+//verify booking
+
+//payment verify
+const verifyPament = catchAsync(async (req, res, next) => {
+  const order = await bookingServices.verifyPayment(
+    req.query.order_id as string,
+  );
+  sendResponse(res, {
+    statusCode: StatusCodes.CREATED,
+    success: true,
+    message: 'Bookings verifyed  Successful',
+    data: order,
   });
 });
 
@@ -61,4 +82,5 @@ export const bookingControllers = {
   deleteBooking,
   getBooking,
   getSingleBooking,
+  verifyPament,
 };
