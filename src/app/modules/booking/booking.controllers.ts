@@ -6,7 +6,7 @@ import { bookingServices } from './booking.services';
 const createBooking = catchAsync(async (req, res) => {
   const { userEmail } = req.user;
 
-  const result = await bookingServices.createBookingIntoDB(
+  const checkout_url = await bookingServices.createBookingIntoDB(
     userEmail,
     req.body,
     req.ip!,
@@ -15,11 +15,9 @@ const createBooking = catchAsync(async (req, res) => {
     statusCode: StatusCodes.OK,
     success: true,
     message: 'Booking  successfully',
-    data: result,
+    data: { checkout_url },
   });
 });
-
-//verify booking
 
 //payment verify
 const verifyPament = catchAsync(async (req, res, next) => {

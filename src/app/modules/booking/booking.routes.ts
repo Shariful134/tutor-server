@@ -10,6 +10,7 @@ const router = Router();
 
 router.post(
   '/create',
+  auth(USER_ROLE.student),
   validateRequest(bookingValidation.bookingValidationSchema),
   bookingControllers.createBooking,
 );
@@ -17,20 +18,21 @@ router.post(
 ///paymentVerify
 router.get('/', auth(USER_ROLE.student), bookingControllers.verifyPament);
 
+router.get('/get', auth(USER_ROLE.student), bookingControllers.getBooking);
 router.get(
-  '/get',
-
-  bookingControllers.getBooking,
+  '/get/:id',
+  auth(USER_ROLE.student),
+  bookingControllers.getSingleBooking,
 );
-router.get('/get/:id', bookingControllers.getSingleBooking);
 router.patch(
   '/update/:id',
+  auth(USER_ROLE.student),
   validateRequest(bookingValidation.bookingValidationSchema),
   bookingControllers.updateBooking,
 );
 router.delete(
   '/update/:id',
-
+  auth(USER_ROLE.student),
   bookingControllers.deleteBooking,
 );
 

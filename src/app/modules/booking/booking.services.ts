@@ -51,7 +51,7 @@ const createBookingIntoDB = async (
       },
     });
   }
-
+  console.log(payment);
   return payment.checkout_url;
 };
 

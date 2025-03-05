@@ -32,7 +32,7 @@ declare module 'shurjopay' {
     customer_name: string; // Name of the customer making payment (Mandatory)
     customer_address: string; // Address of the customer making payment (Mandatory)
     customer_email: string; // Email of the customer making payment (Mandatory)
-    customer_phone: string; // Phone number of the customer making payment (Mandatory)
+    customer_phone?: string; // Phone number of the customer making payment (Mandatory)
     customer_city: string; // City of the customer making payment (Mandatory)
     customer_post_code?: string; // Postal code of the customer making payment (Optional)
     client_ip?: string; // IP address of the customer making payment (Optional)
