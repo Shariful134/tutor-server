@@ -15,6 +15,21 @@ const register = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const registerasTutor = catchAsync(async (req, res) => {
+  const { userEmail } = req.user;
+  const file = req.file;
+  const result = await authServices.registerasTutorIntoDB(
+    file,
+    userEmail,
+    req.body,
+  );
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: 'Tutor registered successfully',
+    data: result,
+  });
+});
 
 //login User
 const loginUser = catchAsync(async (req, res, next) => {
@@ -41,5 +56,6 @@ const loginUser = catchAsync(async (req, res, next) => {
 
 export const authControllers = {
   register,
+  registerasTutor,
   loginUser,
 };

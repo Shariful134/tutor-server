@@ -4,6 +4,7 @@ import { IUsers, TUserLogin } from './auth.interface';
 import { User } from './auth.model';
 import config from '../../config';
 import jwt from 'jsonwebtoken';
+import { sendImageToCloudinary } from '../../utils/sendImageToCloudinary';
 
 // create user
 const registerIntoDB = async (payload: IUsers) => {
@@ -19,6 +20,38 @@ const registerIntoDB = async (payload: IUsers) => {
 
   const result = await User.create(payload);
 
+  return result;
+};
+// create as tutor
+const registerasTutorIntoDB = async (
+  file: any,
+  email: string,
+  payload: IUsers,
+) => {
+  // return result;
+  const user = await User.isUserExistsByEmail(email);
+
+  //checking user is exists
+  let role;
+  if (user) {
+    role = 'tutor';
+  } else {
+    throw new AppError(StatusCodes.NOT_FOUND, 'User is not Found!');
+  }
+
+  const imageName = payload.name;
+  const { secure_url } = await sendImageToCloudinary(imageName, file?.path);
+
+  const tutorData = { ...payload, role, profileImage: secure_url };
+  console.log('tutorData', tutorData);
+  console.log(secure_url);
+  console.log(file);
+  const result = await User.findOneAndUpdate({ email }, tutorData, {
+    new: true,
+  });
+  if (!result) {
+    throw new AppError(StatusCodes.BAD_REQUEST, 'Failed to set your Profile');
+  }
   return result;
 };
 
@@ -59,5 +92,6 @@ const loginUserIntoDB = async (payload: TUserLogin) => {
 
 export const authServices = {
   registerIntoDB,
+  registerasTutorIntoDB,
   loginUserIntoDB,
 };

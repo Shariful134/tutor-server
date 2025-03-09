@@ -32,7 +32,7 @@ const createUserValidationSchema = z.object({
     subjects: z.array(z.string()).optional(),
     gradeLevel: z.string().optional(),
     hourlyRate: z.number().optional(),
-    ratings: z.array(z.number()).optional(),
+
     category: z.string().optional(),
     profileImage: z.string().optional(),
     availability: z
@@ -43,9 +43,38 @@ const createUserValidationSchema = z.object({
         }),
       )
       .optional(),
-    shift: z.array(z.string()).optional(),
-    day: z.array(z.string()).optional(),
-    rating: z.number().min(0).max(5).optional(),
+
+    ratings: z.number().min(0).max(5).optional(),
+  }),
+});
+
+// update for Creating a User
+const updateUserValidationSchema = z.object({
+  body: z.object({
+    name: z.string().min(1, 'Name is required').trim().optional(),
+    email: z.string().email('Invalid email format').trim().optional(),
+    password: z
+      .string()
+      .min(6, 'Password must be at least 6 characters')
+      .trim()
+      .optional(),
+    role: userRoleEnum.default('student').optional(),
+    bio: z.string(),
+    phoneNumber: z.string().regex(phoneNumberRegex, 'Invalid phone number'),
+    subjects: z.array(z.string()),
+    gradeLevel: z.string(),
+    hourlyRate: z.number(),
+    ratings: z.array(z.number()),
+    category: z.string(),
+    profileImage: z.string().optional(),
+    availability: z
+      .array(
+        z.object({
+          day: z.string().min(1, 'Day is required'),
+          time: z.string().min(1, 'Time is required'),
+        }),
+      )
+      .optional(),
   }),
 });
 
@@ -59,4 +88,5 @@ const loginValidationschema = z.object({
 export const authValidation = {
   createUserValidationSchema,
   loginValidationschema,
+  updateUserValidationSchema,
 };

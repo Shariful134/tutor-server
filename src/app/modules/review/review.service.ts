@@ -23,7 +23,7 @@ const createReviewIntoDB = async (payload: IReview) => {
 
 //review and comment get
 const getReviewCommentIntoDB = async () => {
-  const result = await Review.find();
+  const result = await Review.find().populate('student').populate('tutor');
   if (!result.length) {
     throw new AppError(
       StatusCodes.NOT_FOUND,
@@ -35,7 +35,9 @@ const getReviewCommentIntoDB = async () => {
 
 //review and comment get signle
 const getReviewCommentSignleIntoDB = async (id: string) => {
-  const result = await Review.findById(id);
+  const result = await Review.findById(id)
+    .populate('student')
+    .populate('tutor');
   if (!result) {
     throw new AppError(
       StatusCodes.NOT_FOUND,
@@ -62,6 +64,7 @@ const UpdateReviewCommentIntoDB = async (
 //review and comment delete
 const deleteReviewCommentIntoDB = async (id: string) => {
   const result = await Review.findByIdAndDelete(id);
+
   if (!result) {
     throw new AppError(
       StatusCodes.NOT_FOUND,
