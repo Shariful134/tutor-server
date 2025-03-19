@@ -3,18 +3,54 @@ import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { bookingServices } from './booking.services';
 
+//booking request
+const createBookingRequest = catchAsync(async (req, res) => {
+  const { userEmail } = req.user;
+  console.log(req.user);
+
+  const result = await bookingServices.createBookingRequestIntoDB(
+    userEmail,
+    req.body,
+  );
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: 'Booking Requeset Successfully',
+    data: result,
+  });
+});
+
+//booking request accept
+const acceptBookingRequest = catchAsync(async (req, res) => {
+  const { userEmail } = req.user;
+  const { id } = req.params;
+
+  const result = await bookingServices.acceptBookingRequestIntoDB(
+    userEmail,
+    id,
+  );
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: 'Booking Accept Successfully',
+    data: result,
+  });
+});
+
 const createBooking = catchAsync(async (req, res) => {
   const { userEmail } = req.user;
+  const { id } = req.params;
 
   const checkout_url = await bookingServices.createBookingIntoDB(
     userEmail,
     req.body,
+    id,
     req.ip!,
   );
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     success: true,
-    message: 'Booking  successfully',
+    message: 'Booking  Successfully',
     data: { checkout_url },
   });
 });
@@ -76,6 +112,8 @@ const deleteBooking = catchAsync(async (req, res) => {
 
 export const bookingControllers = {
   createBooking,
+  createBookingRequest,
+  acceptBookingRequest,
   updateBooking,
   deleteBooking,
   getBooking,

@@ -1,17 +1,22 @@
 import { model, Schema, Types } from 'mongoose';
-import { IBooking } from './booking.interface';
+import { RequestBooking } from './booking.interface';
 
-const bookingSchema = new Schema<IBooking>(
+const RequestBookingSchema = new Schema<RequestBooking>(
   {
     student: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     tutor: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    bookingRequest: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
     duration: {
       type: Number,
-      required: true,
+      required: false,
     },
     dateTime: {
       type: Date,
-      required: true,
+      required: false,
     },
     status: {
       type: String,
@@ -20,23 +25,28 @@ const bookingSchema = new Schema<IBooking>(
     },
     address: {
       type: String,
-      required: true,
+      required: false,
       trim: true,
     },
-    totalPrice: { type: Number, required: true },
+    totalPrice: { type: Number, required: false },
     phone: {
       type: String,
       trim: true,
       match: [/^\+?[0-9]{10,15}$/, 'Invalid phone number'],
+      required: false,
     },
     transaction: {
-      id: String,
-      transactionStatus: String,
-      date_time: String,
-      method: String,
-      sp_message: String,
-      sp_code: String,
-      bank_status: String,
+      type: {
+        id: { type: String, required: false },
+        transactionStatus: { type: String, required: false },
+        date_time: { type: String, required: false },
+        method: { type: String, required: false },
+        sp_message: { type: String, required: false },
+        sp_code: { type: String, required: false },
+        bank_status: { type: String, required: false },
+      },
+      required: false,
+      default: undefined,
     },
   },
   {
@@ -44,4 +54,4 @@ const bookingSchema = new Schema<IBooking>(
   },
 );
 
-export const Booking = model<IBooking>('Booking', bookingSchema);
+export const Booking = model<RequestBooking>('Booking', RequestBookingSchema);

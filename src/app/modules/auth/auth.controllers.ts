@@ -1,32 +1,62 @@
 import { StatusCodes } from 'http-status-codes';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
-import { Request, Response } from 'express';
+
 import { authServices } from './auth.services';
 import config from '../../config';
 
 //registered user
-const register = catchAsync(async (req, res) => {
-  const result = await authServices.registerIntoDB(req.body);
+const registerStudent = catchAsync(async (req, res) => {
+  console.log(req.body);
+  const result = await authServices.registerStudentIntoDB(req.body);
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     success: true,
-    message: 'User registered successfully',
+    message: 'Student registered successfully',
     data: result,
   });
 });
-const registerasTutor = catchAsync(async (req, res) => {
+
+//changeProfile Img
+const changeProfileImg = catchAsync(async (req, res) => {
+  const file = req?.file;
+  const { id } = req.params;
   const { userEmail } = req.user;
-  const file = req.file;
-  const result = await authServices.registerasTutorIntoDB(
+  const result = await authServices.changeProfileImgIntoDB(file, id, userEmail);
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: 'Profile Imgae Update successfully',
+    data: result,
+  });
+});
+
+//register as a tutor
+const registerasTutor = catchAsync(async (req, res) => {
+  const result = await authServices.registerasTutorIntoDB(req.body);
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: 'Tutor registered successfully',
+    data: result,
+  });
+});
+
+//update as a tutor
+const updateTutor = catchAsync(async (req, res) => {
+  const file = req?.file;
+  const { userEmail } = req?.user;
+  const { id } = req?.params;
+  const result = await authServices.updateTutorIntoDB(
     file,
     userEmail,
+    id,
     req.body,
   );
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     success: true,
-    message: 'Tutor registered successfully',
+    message: 'Tutor Updated successfully',
     data: result,
   });
 });
@@ -55,7 +85,9 @@ const loginUser = catchAsync(async (req, res, next) => {
 });
 
 export const authControllers = {
-  register,
+  changeProfileImg,
+  registerStudent,
+  updateTutor,
   registerasTutor,
   loginUser,
 };

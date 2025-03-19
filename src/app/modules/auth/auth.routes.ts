@@ -8,23 +8,52 @@ import { upload } from '../../utils/sendImageToCloudinary';
 
 const router = Router();
 
+//registration as student
 router.post(
-  '/register',
-  validateRequest(authValidation.createUserValidationSchema),
-  authControllers.register,
+  '/register-as-student',
+  validateRequest(authValidation.registerStudentValidationSchema),
+  authControllers.registerStudent,
 );
+//change Profile Image
+router.patch(
+  '/changeProfileImg/:id',
+  upload.single('file'),
+  auth(USER_ROLE.student, USER_ROLE.tutor),
+  authControllers.changeProfileImg,
+);
+
 router.post(
-  '/register/as-tutor',
+  '/register-as-tutor',
+  validateRequest(authValidation.registerTutorValidationSchema),
+  authControllers.registerasTutor,
+);
+
+//update tutor data
+router.patch(
+  '/update-as-tutor/:id',
   upload.single('file'),
   (req: Request, res: Response, next: NextFunction) => {
     req.body = JSON.parse(req.body.data);
     next();
   },
-  auth(USER_ROLE.student, USER_ROLE.tutor),
-  validateRequest(authValidation.updateUserValidationSchema),
-  authControllers.registerasTutor,
+  auth(USER_ROLE.tutor),
+  validateRequest(authValidation.updateTutorValidationSchema),
+  authControllers.updateTutor,
 );
+// //update tutor data
+// router.patch(
+//   '/update-as-tutor',
+//   upload.single('file'),
+//   (req: Request, res: Response, next: NextFunction) => {
+//     req.body = JSON.parse(req.body.data);
+//     next();
+//   },
+//   auth(USER_ROLE.tutor),
+//   validateRequest(authValidation.registerTutorValidationSchema),
+//   authControllers.registerasTutor,
+// );
 
+//login
 router.post(
   '/login',
   validateRequest(authValidation.loginValidationschema),

@@ -13,7 +13,7 @@ import { User } from '../modules/auth/auth.model';
 const auth = (...requiredRoles: TUserRole[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const token = req.headers.authorization;
-    console.log(token);
+    // console.log(token);
 
     //if the token is sent to the client side
     if (!token) {

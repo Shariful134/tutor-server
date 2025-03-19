@@ -8,8 +8,24 @@ import { USER_ROLE } from '../auth/auth.constant';
 
 const router = Router();
 
+//Rerquest booking
 router.post(
-  '/create',
+  '/request-booking',
+  auth(USER_ROLE.student),
+  validateRequest(bookingValidation.bookingRequestValidationSchema),
+  bookingControllers.createBookingRequest,
+);
+
+//Rerquest booking
+router.patch(
+  '/accept-booking/:id',
+  auth(USER_ROLE.tutor),
+  bookingControllers.acceptBookingRequest,
+);
+
+// booking confirm after accept by tutor
+router.patch(
+  '/create/:id',
   auth(USER_ROLE.student),
   validateRequest(bookingValidation.bookingValidationSchema),
   bookingControllers.createBooking,
@@ -18,6 +34,7 @@ router.post(
 ///paymentVerify
 router.get('/', auth(USER_ROLE.student), bookingControllers.verifyPament);
 
+//get All Bookings
 router.get(
   '/get',
   auth(USER_ROLE.student, USER_ROLE.tutor, USER_ROLE.admin),
@@ -28,12 +45,12 @@ router.get(
   auth(USER_ROLE.student, USER_ROLE.tutor, USER_ROLE.admin),
   bookingControllers.getSingleBooking,
 );
-router.patch(
-  '/update/:id',
-  auth(USER_ROLE.student),
-  validateRequest(bookingValidation.bookingValidationSchema),
-  bookingControllers.updateBooking,
-);
+// router.patch(
+//   '/update/:id',
+//   auth(USER_ROLE.student),
+//   validateRequest(bookingValidation.bookingValidationSchema),
+//   bookingControllers.updateBooking,
+// );
 router.delete(
   '/update/:id',
   auth(USER_ROLE.student),

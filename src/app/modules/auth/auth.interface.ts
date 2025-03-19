@@ -5,9 +5,9 @@ export interface IUsers {
   name: string;
   email: string;
   password: string;
-  phoneNumber: string;
   role: 'student' | 'tutor' | 'admin';
   bio?: string;
+  phoneNumber?: string;
   subjects?: string[];
   gradeLevel?: string;
   hourlyRate: number;
