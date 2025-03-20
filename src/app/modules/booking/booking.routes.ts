@@ -41,6 +41,11 @@ router.get(
   bookingControllers.getBooking,
 );
 router.get(
+  '/get-allBookings',
+  auth(USER_ROLE.student, USER_ROLE.tutor, USER_ROLE.admin),
+  bookingControllers.getAllBooking,
+);
+router.get(
   '/get/:id',
   auth(USER_ROLE.student, USER_ROLE.tutor, USER_ROLE.admin),
   bookingControllers.getSingleBooking,
@@ -52,8 +57,8 @@ router.get(
 //   bookingControllers.updateBooking,
 // );
 router.delete(
-  '/update/:id',
-  auth(USER_ROLE.student),
+  '/delete-booking/:id',
+  auth(USER_ROLE.student, USER_ROLE.tutor),
   bookingControllers.deleteBooking,
 );
 

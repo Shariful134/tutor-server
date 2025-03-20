@@ -68,6 +68,7 @@ const verifyPament = catchAsync(async (req, res, next) => {
   });
 });
 
+//get bookings
 const getBooking = catchAsync(async (req, res) => {
   const result = await bookingServices.getBookingsIntoDB();
   sendResponse(res, {
@@ -77,6 +78,19 @@ const getBooking = catchAsync(async (req, res) => {
     data: result,
   });
 });
+
+//get Allbookings
+const getAllBooking = catchAsync(async (req, res) => {
+  const result = await bookingServices.getAllBookingsIntoDB();
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: 'Bookings are retrived successfully',
+    data: result,
+  });
+});
+
+//getSingleBookings
 const getSingleBooking = catchAsync(async (req, res) => {
   const { id } = req.params;
   const result = await bookingServices.getSingleBookingIntoDB(id);
@@ -114,6 +128,7 @@ export const bookingControllers = {
   createBooking,
   createBookingRequest,
   acceptBookingRequest,
+  getAllBooking,
   updateBooking,
   deleteBooking,
   getBooking,

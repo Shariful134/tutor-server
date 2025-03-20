@@ -159,10 +159,20 @@ const verifyPayment = async (order_id: string) => {
   return verifiedPayment;
 };
 
+//get bookings
 const getBookingsIntoDB = async () => {
-  const result = await Booking.find();
+  const result = await Booking.find().populate('student');
   if (!result.length) {
     throw new AppError(StatusCodes.NOT_FOUND, 'Bookings not Found1');
+  }
+  return result;
+};
+
+//get Allbookings
+const getAllBookingsIntoDB = async () => {
+  const result = await Booking.find().populate('student').populate('tutor');
+  if (!result.length) {
+    throw new AppError(StatusCodes.NOT_FOUND, 'Bookings not Found!');
   }
   return result;
 };
@@ -190,6 +200,7 @@ export const bookingServices = {
   createBookingRequestIntoDB,
   acceptBookingRequestIntoDB,
   createBookingIntoDB,
+  getAllBookingsIntoDB,
   updateBookingIntoDB,
   verifyPayment,
   deleteBookingIntoDB,
