@@ -69,6 +69,7 @@ const acceptBookingRequestIntoDB = async (email: string, id: string) => {
   return result;
 };
 
+//bookingConfirmation
 const createBookingIntoDB = async (
   userEmail: string,
   payload: Partial<RequestBooking>,

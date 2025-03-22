@@ -40,7 +40,7 @@ router.patch(
   validateRequest(authValidation.updateTutorValidationSchema),
   authControllers.updateTutor,
 );
-// //update tutor data
+// //update tutor datapm
 // router.patch(
 //   '/update-as-tutor',
 //   upload.single('file'),

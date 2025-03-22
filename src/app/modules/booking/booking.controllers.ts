@@ -37,6 +37,7 @@ const acceptBookingRequest = catchAsync(async (req, res) => {
   });
 });
 
+//booking confirmation
 const createBooking = catchAsync(async (req, res) => {
   const { userEmail } = req.user;
   const { id } = req.params;

@@ -16,7 +16,7 @@ router.post(
   bookingControllers.createBookingRequest,
 );
 
-//Rerquest booking
+//Accept booking
 router.patch(
   '/accept-booking/:id',
   auth(USER_ROLE.tutor),
