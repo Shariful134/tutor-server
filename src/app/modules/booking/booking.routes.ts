@@ -23,7 +23,7 @@ router.patch(
   bookingControllers.acceptBookingRequest,
 );
 
-// booking confirm after accept by tutor
+// create or booking confirm after accept by tutor
 router.patch(
   '/create/:id',
   auth(USER_ROLE.student),
@@ -32,7 +32,7 @@ router.patch(
 );
 
 ///paymentVerify
-router.get('/', auth(USER_ROLE.student), bookingControllers.verifyPament);
+router.get('/verify', auth(USER_ROLE.student), bookingControllers.verifyPament);
 
 //get All Bookings
 router.get(
@@ -50,12 +50,14 @@ router.get(
   auth(USER_ROLE.student, USER_ROLE.tutor, USER_ROLE.admin),
   bookingControllers.getSingleBooking,
 );
-// router.patch(
-//   '/update/:id',
-//   auth(USER_ROLE.student),
-//   validateRequest(bookingValidation.bookingValidationSchema),
-//   bookingControllers.updateBooking,
-// );
+
+//update bookings
+router.patch(
+  '/update/:id',
+  auth(USER_ROLE.student),
+  validateRequest(bookingValidation.bookingUpadateValidationSchema),
+  bookingControllers.updateBooking,
+);
 router.delete(
   '/delete-booking/:id',
   auth(USER_ROLE.student, USER_ROLE.tutor),

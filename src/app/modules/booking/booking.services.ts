@@ -101,8 +101,18 @@ const createBookingIntoDB = async (
   } else {
     throw new AppError(StatusCodes.NOT_FOUND, 'Tutor is not found!');
   }
-  const bookingData = { ...payload, totalPrice, userEmail };
+
+  const bookingData = {
+    ...payload,
+    student,
+    tutor,
+    totalPrice,
+    userEmail,
+  };
+
   let booking = await Booking.findByIdAndUpdate(id, bookingData, { new: true });
+
+  // console.log('bookingData: ', booking);
 
   // Payment integretation
   const shurjopayPayload = {
@@ -128,13 +138,13 @@ const createBookingIntoDB = async (
       },
     });
   }
-  console.log(payment);
+
   return payment.checkout_url;
 };
 
 //verify order
 const verifyPayment = async (order_id: string) => {
-  const verifiedPayment = await bookingUtils.verifyPaymentAsync(order_id);
+  let verifiedPayment = await bookingUtils.verifyPaymentAsync(order_id);
   if (verifiedPayment.length) {
     await Booking.findOneAndUpdate(
       { 'transaction.id': order_id },
@@ -180,7 +190,9 @@ const getAllBookingsIntoDB = async () => {
 
 //getSingleBookingIntoDb
 const getSingleBookingIntoDB = async (id: string) => {
-  const result = await Booking.findById(id);
+  const result = await Booking.findById(id)
+    .populate('student')
+    .populate('tutor');
   return result;
 };
 

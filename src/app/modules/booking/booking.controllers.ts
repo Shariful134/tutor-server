@@ -120,7 +120,7 @@ const deleteBooking = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     success: true,
-    message: ' Booking Deleted successfully',
+    message: ' Booking Deleted Successfully',
     data: result,
   });
 });
