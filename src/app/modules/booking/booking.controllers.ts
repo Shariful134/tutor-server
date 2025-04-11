@@ -6,7 +6,6 @@ import { bookingServices } from './booking.services';
 //booking request
 const createBookingRequest = catchAsync(async (req, res) => {
   const { userEmail } = req.user;
-  console.log(req.user);
 
   const result = await bookingServices.createBookingRequestIntoDB(
     userEmail,

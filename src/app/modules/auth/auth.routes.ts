@@ -14,6 +14,7 @@ router.post(
   validateRequest(authValidation.registerStudentValidationSchema),
   authControllers.registerStudent,
 );
+
 //change Profile Image
 router.patch(
   '/changeProfileImg/:id',
@@ -40,18 +41,6 @@ router.patch(
   validateRequest(authValidation.updateTutorValidationSchema),
   authControllers.updateTutor,
 );
-// //update tutor datapm
-// router.patch(
-//   '/update-as-tutor',
-//   upload.single('file'),
-//   (req: Request, res: Response, next: NextFunction) => {
-//     req.body = JSON.parse(req.body.data);
-//     next();
-//   },
-//   auth(USER_ROLE.tutor),
-//   validateRequest(authValidation.registerTutorValidationSchema),
-//   authControllers.registerasTutor,
-// );
 
 //login
 router.post(
