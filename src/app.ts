@@ -13,8 +13,8 @@ app.use(cookiePerser());
 
 app.use(
   cors({
-    origin: [' http://localhost:3000'],
-    // origin: ['https://tutor-client-psi.vercel.app/'],
+    // origin: [' http://localhost:3000'],
+    origin: ['https://tutor-client-psi.vercel.app/'],
     credentials: true,
   }),
 );
